@@ -1,0 +1,28 @@
+name: Execução de Testes - Cypress CI
+
+# A sequência abaixo configura a execução automática a cada push ou pull request na branch main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Utilizando a versão LTS recomendada
+          cache: 'npm'
+
+      - name: Instalar Dependências
+        run: npm install
+
+      - name: Executar os testes em modo headless
+        run: npx cypress run
